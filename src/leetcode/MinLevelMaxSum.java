@@ -7,20 +7,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-class TreeNode {
-      int val;
-      TreeNode left;
-      TreeNode right;
-      TreeNode(int x) { val = x; }
-
-    @Override
-    public String toString() {
-        return "TreeNode{" +
-                "val=" + val +
-                '}';
-    }
-}
-
 public class MinLevelMaxSum {
 
     @Test
