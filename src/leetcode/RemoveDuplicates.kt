@@ -14,4 +14,11 @@ class RemoveDuplicates {
         removeDuplicates(input)
         assertEquals(charArrayOf('a'), input)
     }
+
+    @Test
+    fun t() {
+        val b = StringBuffer()
+        b.append("sdsdsd\nsdsdsdsdsdsdsdsdsdsdsds")
+        println(b.take(10))
+    }
 }
