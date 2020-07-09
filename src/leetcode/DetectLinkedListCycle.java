@@ -1,17 +1,6 @@
 package leetcode;
 
-import java.util.HashMap;
 import java.util.HashSet;
-
-class ListNode {
-    int val;
-    ListNode next;
-
-    ListNode(int x) {
-        val = x;
-        next = null;
-    }
-}
 
 public class DetectLinkedListCycle {
     public ListNode detectCycle(ListNode head) {
