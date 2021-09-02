@@ -8,14 +8,37 @@ import kotlin.collections.HashSet
 
 
 class DetectCycledGraph {
+
+    fun hasGraphCycles2(graph: Graph): Boolean {
+        var parent = HashMap<Int, Int>()
+        for (v: Int in graph.allVertices) {
+            for(e: Int in graph.adjacent(v)) {
+                var pV = find(parent, v)
+                var pE = find(parent, e)
+                if (pV == pE) return true
+                union(parent, pE, pV)
+            }
+        }
+        return false;
+    }
+
+    private fun find(parent: HashMap<Int, Int>, v: Int): Int {
+        if (parent[v] == null)
+            return v
+        return find(parent, parent[v]!!)
+    }
+
+    private fun union(parent: HashMap<Int, Int>, v1: Int, v2: Int) {
+        parent[v1] = v2
+    }
+
     private val greySet = HashSet<Int>()
     private val blackSet = HashSet<Int>()
-
-    fun hasCycledGraph(graph: Graph): Boolean {
+    fun hasGraphCycles(graph: Graph): Boolean {
         val whiteSet = HashSet<Int>(graph.allVertices)
         greySet.clear()
         blackSet.clear()
-        for(v in whiteSet) {
+        for (v in whiteSet) {
             if (dfs(v, graph)) {
                 return true
             }
@@ -47,7 +70,7 @@ class DetectCycledGraph {
         graph.addEdges(5, 6)
         graph.addEdges(6, 4)
 
-        assertTrue(hasCycledGraph(graph))
+        assertTrue(hasGraphCycles(graph))
     }
 
     @Test
@@ -58,7 +81,7 @@ class DetectCycledGraph {
         graph.addEdges(1, 2)
         graph.addEdges(5, 6)
 
-        assertFalse(hasCycledGraph(graph))
+        assertFalse(hasGraphCycles(graph))
     }
 
     @Test
@@ -70,6 +93,6 @@ class DetectCycledGraph {
         graph.addEdges(5, 6)
         graph.addEdges(2, 6)
 
-        assertFalse(hasCycledGraph(graph))
+        assertFalse(hasGraphCycles(graph))
     }
 }
