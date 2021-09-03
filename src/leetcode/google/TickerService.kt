@@ -22,6 +22,7 @@ internal interface TickerService {
 internal class TickerServiceImpl : TickerService {
     private val history = HashMap<Long, Double>()
     private val minHeap = PriorityQueue<Double>()
+    private val maxHeap = PriorityQueue<Double>(Comparator.reverseOrder())
     private var lastValueTime = Long.MIN_VALUE
 
     /**
@@ -29,18 +30,23 @@ internal class TickerServiceImpl : TickerService {
      */
     override fun correctPrice(newPrice: Double, timestamp: Long) {
         history[timestamp]?.let { oldPrice ->
-            minHeap.remove(oldPrice) //O(log N)
+            minHeap.remove(oldPrice)
+            maxHeap.remove(oldPrice)
         }
         history[timestamp] = newPrice
-        minHeap.add(newPrice) //O(log N)
+        minHeap.add(newPrice)
+        maxHeap.add(newPrice)
     }
 
     /**
      * Time complexity: O(log N)
      */
     override fun setCurrentPrice(price: Double, timestamp: Long) {
+        if (history.containsKey(timestamp)) return
+
         history[timestamp] = price
         minHeap.add(price)
+        maxHeap.add(price)
         lastValueTime = timestamp
     }
 
@@ -56,7 +62,7 @@ internal class TickerServiceImpl : TickerService {
 
     override val max: Double
         get() {
-            return if (minHeap.isNotEmpty()) minHeap.last() else Double.MIN_VALUE
+            return if (maxHeap.isNotEmpty()) maxHeap.first() else Double.MIN_VALUE
         }
 }
 
@@ -79,5 +85,7 @@ class TickerServiceImplTest {
         service.correctPrice(7.0, 2)
         assertEquals(7.0, service.min)
         assertEquals(10.0, service.lastValue)
+
+        assertEquals(10.0, service.max)
     }
 }
