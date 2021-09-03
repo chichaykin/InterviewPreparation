@@ -12,13 +12,21 @@ internal interface TickerService {
     fun setCurrentPrice(price: Double, timestamp: Long)
     val lastValue: Double
     val min: Double
+    val max: Double
 }
 
+/**
+ * Time complexity for correction and adding new values: O(log N)
+ * Space complexity: O(N)
+ */
 internal class TickerServiceImpl : TickerService {
     private val history = HashMap<Long, Double>()
     private val minHeap = PriorityQueue<Double>()
     private var lastValueTime = Long.MIN_VALUE
 
+    /**
+     * Time complexity: O(log N)
+     */
     override fun correctPrice(newPrice: Double, timestamp: Long) {
         history[timestamp]?.let { oldPrice ->
             minHeap.remove(oldPrice) //O(log N)
@@ -27,6 +35,9 @@ internal class TickerServiceImpl : TickerService {
         minHeap.add(newPrice) //O(log N)
     }
 
+    /**
+     * Time complexity: O(log N)
+     */
     override fun setCurrentPrice(price: Double, timestamp: Long) {
         history[timestamp] = price
         minHeap.add(price)
@@ -37,9 +48,15 @@ internal class TickerServiceImpl : TickerService {
         get() {
             return history[lastValueTime] ?: Double.MIN_VALUE
         }
+
     override val min: Double
         get() {
             return if (minHeap.isNotEmpty()) minHeap.first() else Double.MIN_VALUE
+        }
+
+    override val max: Double
+        get() {
+            return if (minHeap.isNotEmpty()) minHeap.last() else Double.MIN_VALUE
         }
 }
 
