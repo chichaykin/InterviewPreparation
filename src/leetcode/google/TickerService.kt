@@ -35,11 +35,11 @@ internal class TickerServiceImpl : TickerService {
 
     override val lastValue: Double
         get() {
-            return history[lastValueTime] ?: 0.0
+            return history[lastValueTime] ?: Double.MIN_VALUE
         }
     override val min: Double
         get() {
-            return if (minHeap.isNotEmpty()) minHeap.first() else 0.0
+            return if (minHeap.isNotEmpty()) minHeap.first() else Double.MIN_VALUE
         }
 }
 
