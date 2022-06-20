@@ -6,7 +6,7 @@ interface Monarchy {
     fun getOrderOfSuccession(): List<String>?
 }
 
-private data class Node(val parent: Node?, val name: String, val children: List<Node>)
+//private data class Node(val parent: Node?, val name: String, val children: List<Node>)
 
 class MonarchyImpl : Monarchy {
     override fun birth(child: String, parent: String) {

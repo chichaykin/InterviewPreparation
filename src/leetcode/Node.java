@@ -21,8 +21,6 @@ public class Node {
     public String toString() {
         return "Node{" +
                 "val=" + val +
-                ", left=" + left +
-                ", right=" + right +
                 '}';
     }
 }

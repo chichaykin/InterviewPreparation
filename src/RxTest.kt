@@ -2,6 +2,7 @@
 import io.reactivex.*
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.MaybeSubject
 import org.junit.Test
 import java.util.concurrent.Executors
 
@@ -29,6 +30,22 @@ class RxTest {
                     println("4: ${Thread.currentThread().name}")
                 }
         Thread.sleep(100)
+    }
+
+
+    @Test
+    fun maybeTest() {
+        var maybeCameraSubject =  MaybeSubject.create<String>()
+        maybeCameraSubject.onSuccess("Success")
+
+        maybeCameraSubject.subscribe { println("First $it") }
+        maybeCameraSubject.subscribe { println("Second $it") }
+    }
+
+    @Test
+    fun testMap() {
+        val map = mapOf("T" to "H")
+        print(map.toString())
     }
 
 }
